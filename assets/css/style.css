@@ -2433,3 +2433,21 @@ body {
   font-size: 13px;
   font-weight: 600;
 }
+
+/* ===== Placeholder art thumbnail (used on related-game cards for titles that don't have photo assets yet) ===== */
+.art-placeholder {
+  background: var(--grad-brand-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4/3;
+}
+
+.art-placeholder .ph-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-2);
+  text-align: center;
+  padding: 0 10px;
+}

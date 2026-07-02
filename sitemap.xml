@@ -16,37 +16,37 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.rezpawns.com/games/neon-drift-racer.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/velocity-loop.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/glitch-grid.html</loc>
+    <loc>https://www.rezpawns.com/games/distance.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.rezpawns.com/games/mind-maze-express.html</loc>
+    <loc>https://www.rezpawns.com/games/trackmania.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.rezpawns.com/games/skybreak-arena.html</loc>
+    <loc>https://www.rezpawns.com/games/tetris-effect.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/the-witness.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.rezpawns.com/games/pixel-vanguard.html</loc>
+    <loc>https://www.rezpawns.com/games/risk-of-rain.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.rezpawns.com/games/stormwatch-tactics.html</loc>
+    <loc>https://www.rezpawns.com/games/dead-cells.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/into-the-breach.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -74,6 +74,46 @@
     <loc>https://www.rezpawns.com/games/tidal-rush.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/need-for-speed-heat.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/forza-horizon-5.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/talos-principle-2.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/vampire-survivors.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/hades.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/xcom-2.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/outer-wilds.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/cuphead.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.rezpawns.com/contact.html</loc>
