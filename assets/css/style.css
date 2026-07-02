@@ -2048,6 +2048,100 @@ body {
   border-top: 1px solid var(--border-soft);
 }
 
+/* ===== Game screenshot carousel ===== */
+.game-carousel {
+  position: relative;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-1);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.game-carousel .carousel-track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+.game-carousel .carousel-slide {
+  flex: 0 0 100%;
+  aspect-ratio: 16/9;
+}
+
+.game-carousel .carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.game-carousel .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(7, 6, 13, 0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.game-carousel .carousel-btn:hover { background: rgba(7, 6, 13, 0.8); }
+.game-carousel .carousel-prev { left: 14px; }
+.game-carousel .carousel-next { right: 14px; }
+.game-carousel .carousel-btn svg { width: 18px; height: 18px; }
+
+.game-carousel .carousel-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.game-carousel .carousel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+}
+
+.game-carousel .carousel-dot.is-active {
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.game-carousel .carousel-caption {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(7, 6, 13, 0.55);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(4px);
+}
+
+.where-to-play {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
 .demo-pending {
   aspect-ratio: 4/3;
   display: flex;
@@ -2254,4 +2348,88 @@ body {
   :root {
     --container: 1400px;
   }
+}
+/* ===== Cookie consent banner ===== */
+.consent-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 999;
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--bg-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.consent-banner p {
+  font-size: 13.5px;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.consent-banner p a { color: var(--cyan); }
+
+.consent-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.consent-actions .btn { flex: 0 0 auto; }
+
+.consent-banner[hidden] { display: none; }
+
+@media (max-width: 560px) {
+  .consent-banner { left: 10px; right: 10px; bottom: 10px; padding: 16px; }
+}
+
+/* ===== Carousel info slides (genre/style + platform availability) ===== */
+.carousel-info-slide {
+  background: var(--grad-brand-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-info-inner {
+  text-align: center;
+  padding: 24px;
+}
+
+.carousel-info-inner .eyebrow {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.carousel-info-inner h3 {
+  font-size: 24px;
+  margin: 0 0 6px;
+}
+
+.carousel-info-inner p {
+  color: var(--text-2);
+  margin: 0;
+}
+
+.platform-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.platform-pill {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-strong);
+  font-size: 13px;
+  font-weight: 600;
 }

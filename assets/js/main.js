@@ -5,6 +5,8 @@
   "use strict";
 
   document.addEventListener("DOMContentLoaded", function () {
+    initCookieConsent();
+    initFooterConsentLink();
     initYear();
     initHeaderScroll();
     initMobileNav();
@@ -15,6 +17,7 @@
     initFullscreenButtons();
     initContactForm();
     initNewsletterForm();
+    initGameCarousels();
   });
 
   /* Footer copyright year */
@@ -172,10 +175,13 @@
   }
 
   /* Contact form — static site, validated and confirmed client-side */
+  /* Contact form — submits to Formspree. Replace FORM_ENDPOINT with your
+     real Formspree (or equivalent) endpoint before launch: https://formspree.io/f/YOUR_FORM_ID */
   function initContactForm() {
     var form = document.querySelector("#contact-form");
     if (!form) return;
 
+    var FORM_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_REAL_FORM_ID";
     var successBox = form.querySelector(".form-success");
 
     form.addEventListener("submit", function (e) {
@@ -212,21 +218,38 @@
         submitBtn.textContent = "Sending...";
       }
 
-      setTimeout(function () {
-        form.reset();
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Send Message";
-        }
-        if (successBox) successBox.classList.add("is-visible");
-      }, 700);
+      fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: new FormData(form)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Request failed");
+          form.reset();
+          if (successBox) successBox.classList.add("is-visible");
+        })
+        .catch(function () {
+          if (successBox) {
+            successBox.textContent = "Something went wrong sending your message — please email us directly at hello@rezpawns.com.";
+            successBox.classList.add("is-visible");
+          }
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Message";
+          }
+        });
     });
   }
 
-  /* Footer newsletter — static site, confirms locally */
+  /* Footer newsletter — submits to Formspree. Replace FORM_ENDPOINT with your
+     real Formspree (or equivalent / ESP) endpoint before launch. */
   function initNewsletterForm() {
     var form = document.querySelector("#newsletter-form");
     if (!form) return;
+
+    var FORM_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_REAL_FORM_ID";
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -236,8 +259,127 @@
         if (note) { note.textContent = "Please enter a valid email address."; note.style.color = "var(--pink)"; }
         return;
       }
-      if (note) { note.textContent = "You're in! Watch your inbox for updates."; note.style.color = "var(--cyan)"; }
-      form.reset();
+
+      var submitBtn = form.querySelector("button[type='submit']");
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ email: input.value.trim() })
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Request failed");
+          if (note) { note.textContent = "You're in! Watch your inbox for updates."; note.style.color = "var(--cyan)"; }
+          form.reset();
+        })
+        .catch(function () {
+          if (note) { note.textContent = "Something went wrong — please try again later."; note.style.color = "var(--pink)"; }
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.disabled = false;
+        });
     });
+  }
+  /* Simple image carousel on game detail pages */
+  function initGameCarousels() {
+    document.querySelectorAll(".game-carousel").forEach(function (carousel) {
+      var track = carousel.querySelector(".carousel-track");
+      var slides = carousel.querySelectorAll(".carousel-slide");
+      var dots = carousel.querySelectorAll(".carousel-dot");
+      var prev = carousel.querySelector(".carousel-prev");
+      var next = carousel.querySelector(".carousel-next");
+      var index = 0;
+
+      function go(i) {
+        index = (i + slides.length) % slides.length;
+        track.style.transform = "translateX(-" + (index * 100) + "%)";
+        dots.forEach(function (d, di) { d.classList.toggle("is-active", di === index); });
+      }
+
+      if (prev) prev.addEventListener("click", function () { go(index - 1); });
+      if (next) next.addEventListener("click", function () { go(index + 1); });
+      dots.forEach(function (d, di) { d.addEventListener("click", function () { go(di); }); });
+
+      var startX = null;
+      track.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener("touchend", function (e) {
+        if (startX === null) return;
+        var dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+        startX = null;
+      });
+
+      go(0);
+    });
+  }
+  /* Cookie consent banner + gate for future ad/analytics scripts.
+     Any script that needs consent (AdSense, analytics, etc.) should call:
+       window.rezpawnsConsent.onConsent(function () { /* load script here */ /* })
+     instead of loading unconditionally. If consent was already given in a
+     previous visit, the callback fires immediately. */
+  function initCookieConsent() {
+    var STORAGE_KEY = "rezpawns_cookie_consent"; // "accepted" | "necessary_only"
+    var callbacks = [];
+    var stored = null;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage unavailable */ }
+
+    window.rezpawnsConsent = {
+      status: stored,
+      onConsent: function (cb) {
+        if (window.rezpawnsConsent.status === "accepted") { cb(); }
+        else { callbacks.push(cb); }
+      }
+    };
+
+    function setStatus(value) {
+      window.rezpawnsConsent.status = value;
+      try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* storage unavailable */ }
+      if (value === "accepted") { callbacks.forEach(function (cb) { cb(); }); callbacks = []; }
+      var banner = document.getElementById("cookie-consent-banner");
+      if (banner) banner.setAttribute("hidden", "");
+    }
+
+    function createBanner() {
+      var existing = document.getElementById("cookie-consent-banner");
+      if (existing) { existing.removeAttribute("hidden"); return; }
+      var banner = document.createElement("div");
+      banner.className = "consent-banner";
+      banner.id = "cookie-consent-banner";
+      banner.setAttribute("role", "dialog");
+      banner.setAttribute("aria-label", "Cookie consent");
+      banner.innerHTML =
+        '<p>We use necessary cookies to run this site, and — only with your consent — analytics and advertising cookies. ' +
+        'See our <a href="/cookie-policy.html">Cookie Policy</a> for details.</p>' +
+        '<div class="consent-actions">' +
+        '<button type="button" class="btn btn-primary btn-sm" data-consent="accept">Accept All</button>' +
+        '<button type="button" class="btn btn-ghost btn-sm" data-consent="necessary">Necessary Only</button>' +
+        '</div>';
+      document.body.appendChild(banner);
+      banner.querySelector('[data-consent="accept"]').addEventListener("click", function () { setStatus("accepted"); });
+      banner.querySelector('[data-consent="necessary"]').addEventListener("click", function () { setStatus("necessary_only"); });
+    }
+
+    if (stored !== "accepted" && stored !== "necessary_only") { createBanner(); }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-reopen-consent]")) {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (err) { /* storage unavailable */ }
+        window.rezpawnsConsent.status = null;
+        createBanner();
+      }
+    });
+  }
+
+  /* Adds a "Cookie Preferences" link into every page's footer bottom row */
+  function initFooterConsentLink() {
+    var row = document.querySelector(".footer-bottom-links");
+    if (!row || row.querySelector("[data-reopen-consent]")) return;
+    var link = document.createElement("a");
+    link.href = "#";
+    link.setAttribute("data-reopen-consent", "");
+    link.textContent = "Cookie Preferences";
+    link.addEventListener("click", function (e) { e.preventDefault(); });
+    row.appendChild(link);
   }
 })();
