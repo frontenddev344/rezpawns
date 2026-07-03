@@ -92,6 +92,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.rezpawns.com/games/a-short-hike.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/downwell.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/hollow-knight.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/kingdom-two-crowns.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.rezpawns.com/games/sonic-mania.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.rezpawns.com/contact.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

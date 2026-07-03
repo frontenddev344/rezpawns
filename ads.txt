@@ -1,0 +1,9 @@
+# ads.txt for rezpawns.com
+#
+# This file authorizes ad networks to sell ad inventory on this domain.
+# It currently contains a PLACEHOLDER line. Before this site goes live with
+# Google AdSense, replace pub-0000000000000000 below with the real AdSense
+# publisher ID shown in your AdSense account (Account > Settings > Account information).
+#
+# Reference: https://support.google.com/adsense/answer/7532444
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
