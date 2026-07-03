@@ -1309,7 +1309,23 @@ body {
   border-color: var(--violet);
   background: var(--surface-strong);
 }
+.field select {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text-0);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
 
+.field select option {
+  background: #1f1f2b;
+}
 .field textarea {
   resize: vertical;
   min-height: 140px;
