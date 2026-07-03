@@ -30,7 +30,7 @@
   --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 20px 60px -20px rgba(123, 92, 255, 0.45);
   --shadow-card: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --container: 1240px;
+  --container: 1440px;
 }
 
 /* ---------- Reset ---------- */
@@ -117,7 +117,15 @@ h5 {
   background: var(--violet);
   color: #fff;
 }
-
+.py-7{
+  padding: 4.375rem 0;
+}
+.pb-7{
+  padding-bottom: 4.375rem;
+}
+.pt-7{
+  padding-top: 4.375rem ;
+}
 /* ---------- Background atmosphere ---------- */
 body {
   background-image:
@@ -136,7 +144,6 @@ body {
 }
 
 .section {
-  padding: clamp(64px, 9vw, 120px) 0;
   position: relative;
 }
 
@@ -1614,7 +1621,7 @@ body {
 
 /* ---------- Legal page typography ---------- */
 .legal-body {
-  max-width: 820px;
+  max-width: 1000px;
   margin-inline: auto;
 }
 
