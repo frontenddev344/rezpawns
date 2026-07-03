@@ -1753,7 +1753,11 @@ body {
   justify-content: center;
   padding: 20px;
 }
-
+.team-card .avatar svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+}
 .team-card h4 {
   font-size: 16px;
   color: var(--text-0);
