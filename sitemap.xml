@@ -50,31 +50,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/emberfall-keep.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/driftwood-isles.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/hollow-lantern.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/quantum-hopper.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.rezpawns.com/games/tidal-rush.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+ 
   <url>
     <loc>https://www.rezpawns.com/games/need-for-speed-heat.html</loc>
     <changefreq>monthly</changefreq>
