@@ -175,111 +175,183 @@
   }
 
   /* Contact form — static site, validated and confirmed client-side */
-  /* Contact form — submits to Formspree. Replace FORM_ENDPOINT with your
-     real Formspree (or equivalent) endpoint before launch: https://formspree.io/f/YOUR_FORM_ID */
   function initContactForm() {
-    var form = document.querySelector("#contact-form");
+    const form = document.querySelector("#contact-form");
     if (!form) return;
 
-    var FORM_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_REAL_FORM_ID";
-    var successBox = form.querySelector(".form-success");
+    // Replace with your real Formspree endpoint
+    const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var valid = true;
-      var fields = form.querySelectorAll("[required]");
+    const successBox = form.querySelector(".form-success");
+    const submitBtn = form.querySelector("button[type='submit']");
 
-      fields.forEach(function (field) {
-        var wrapper = field.closest(".field");
-        var errorEl = wrapper ? wrapper.querySelector(".field-error") : null;
-        var value = field.value.trim();
-        var fieldValid = value.length > 0;
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-        if (field.type === "email" && value) {
-          fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        if (successBox) {
+            successBox.classList.remove("is-visible");
+            successBox.textContent = "";
         }
 
-        if (wrapper) wrapper.classList.toggle("has-error", !fieldValid);
-        if (errorEl) {
-          errorEl.textContent = fieldValid
-            ? ""
-            : field.type === "email"
-            ? "Please enter a valid email address."
-            : "This field is required.";
+        const name = form.querySelector("#name");
+        const email = form.querySelector("#email");
+        const subject = form.querySelector("#subject");
+        const message = form.querySelector("#message");
+
+        const fields = [name, email, subject, message];
+
+        // Clear previous errors
+        fields.forEach(field => {
+            field.setCustomValidity("");
+
+            const wrapper = field.closest(".field");
+            if (wrapper) wrapper.classList.remove("has-error");
+
+            const error = wrapper?.querySelector(".field-error");
+            if (error) error.textContent = "";
+        });
+
+        function showError(field, text) {
+            field.setCustomValidity(text);
+
+            const wrapper = field.closest(".field");
+            if (wrapper) wrapper.classList.add("has-error");
+
+            const error = wrapper?.querySelector(".field-error");
+            if (error) error.textContent = text;
         }
-        if (!fieldValid) valid = false;
-      });
 
-      if (!valid) return;
+        // Required fields
+        if (!name.value.trim())
+            showError(name, "Please enter your name.");
 
-      var submitBtn = form.querySelector("button[type='submit']");
-      if (submitBtn) {
+        if (!email.value.trim())
+            showError(email, "Please enter your email address.");
+
+        if (!subject.value.trim())
+            showError(subject, "Please select a subject.");
+
+        if (!message.value.trim())
+            showError(message, "Please enter your message.");
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        // Name validation
+        if (!/^[A-Za-z\s]{3,50}$/.test(name.value.trim()))
+            showError(name, "Please enter a valid name.");
+
+        // Email validation
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+            showError(email, "Please enter a valid email address.");
+
+        // Message validation
+        if (message.value.trim().length < 10)
+            showError(message, "Please enter at least 10 characters.");
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending...";
-      }
 
-      fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: new FormData(form)
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("Request failed");
-          form.reset();
-          if (successBox) successBox.classList.add("is-visible");
-        })
-        .catch(function () {
-          if (successBox) {
-            successBox.textContent = "Something went wrong sending your message — please email us directly at hello@rezpawns.com.";
+        try {
+
+            const response = await fetch(FORM_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json"
+                },
+                body: new FormData(form)
+            });
+
+            if (!response.ok)
+                throw new Error();
+
+            form.reset();
+
+            successBox.textContent =
+                "✅ Thank you! Your message has been sent successfully.";
+
             successBox.classList.add("is-visible");
-          }
-        })
-        .finally(function () {
-          if (submitBtn) {
+
+        } catch {
+
+            successBox.textContent =
+                "Unable to send your message right now. Please email us directly.";
+
+            successBox.classList.add("is-visible");
+
+        } finally {
+
             submitBtn.disabled = false;
             submitBtn.textContent = "Send Message";
+
+        }
+
+    });
+}
+
+// Contact Page Form JS 
+     function initNewsletterForm() {
+      const form = document.querySelector("#newsletter-form");
+      if (!form) return;
+  
+      const input = form.querySelector("input[type='email']");
+      const note = form.querySelector(".form-note");
+  
+      form.addEventListener("submit", function (e) {
+          e.preventDefault();
+  
+          // Clear previous validation
+          input.setCustomValidity("");
+  
+          if (note) {
+              note.textContent = "";
+              note.style.color = "";
           }
-        });
-    });
-  }
-
-  /* Footer newsletter — submits to Formspree. Replace FORM_ENDPOINT with your
-     real Formspree (or equivalent / ESP) endpoint before launch. */
-  function initNewsletterForm() {
-    var form = document.querySelector("#newsletter-form");
-    if (!form) return;
-
-    var FORM_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_REAL_FORM_ID";
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var input = form.querySelector("input[type='email']");
-      var note = form.querySelector(".form-note");
-      if (!input || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
-        if (note) { note.textContent = "Please enter a valid email address."; note.style.color = "var(--pink)"; }
-        return;
-      }
-
-      var submitBtn = form.querySelector("button[type='submit']");
-      if (submitBtn) submitBtn.disabled = true;
-
-      fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ email: input.value.trim() })
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("Request failed");
-          if (note) { note.textContent = "You're in! Watch your inbox for updates."; note.style.color = "var(--cyan)"; }
+  
+          // Empty validation
+          if (!input.value.trim()) {
+              input.setCustomValidity("Please enter your email address.");
+          }
+  
+          // Show validation error
+          if (!form.checkValidity()) {
+              form.reportValidity();
+              return;
+          }
+  
+          // Email validation
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+              input.setCustomValidity("Please enter a valid email address.");
+          }
+  
+          // Show validation error
+          if (!form.checkValidity()) {
+              form.reportValidity();
+              return;
+          }
+  
+          // ===== SUCCESS =====
+          if (note) {
+              note.textContent = "✅ You're subscribed! Thank you for joining our newsletter.";
+              note.style.color = "var(--cyan)";
+          }
+  
           form.reset();
-        })
-        .catch(function () {
-          if (note) { note.textContent = "Something went wrong — please try again later."; note.style.color = "var(--pink)"; }
-        })
-        .finally(function () {
-          if (submitBtn) submitBtn.disabled = false;
-        });
-    });
+  
+          setTimeout(() => {
+              if (note) {
+                  note.textContent = "";
+                  note.style.color = "";
+              }
+          }, 3000);
+      });
   }
   /* Simple image carousel on game detail pages */
   function initGameCarousels() {
