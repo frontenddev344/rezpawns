@@ -14,7 +14,6 @@
     initFaqAccordion();
     initBackToTop();
     initGameFilters();
-    initFullscreenButtons();
     initContactForm();
     initNewsletterForm();
     initGameCarousels();
@@ -158,18 +157,6 @@
           var match = filter === "all" || card.getAttribute("data-genre") === filter;
           card.style.display = match ? "" : "none";
         });
-      });
-    });
-  }
-
-  /* Game detail page — fullscreen toggle for the embedded player iframe */
-  function initFullscreenButtons() {
-    document.querySelectorAll("[data-fullscreen-target]").forEach(function (btn) {
-      var frame = document.querySelector(btn.getAttribute("data-fullscreen-target"));
-      if (!frame) return;
-      btn.addEventListener("click", function () {
-        if (frame.requestFullscreen) frame.requestFullscreen();
-        else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
       });
     });
   }
