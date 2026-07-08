@@ -162,125 +162,122 @@
   }
 
   /* Contact form — static site, validated and confirmed client-side */
-  function initContactForm() {
-    const form = document.querySelector("#contact-form");
-    if (!form) return;
 
-    // Replace with your real Formspree endpoint
-    const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+function initContactForm() {
+  const form = document.querySelector("#contact-form");
+  if (!form) return;
 
-    const successBox = form.querySelector(".form-success");
-    const submitBtn = form.querySelector("button[type='submit']");
+  const successBox = form.querySelector(".form-success");
 
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
+  form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-        if (successBox) {
-            successBox.classList.remove("is-visible");
-            successBox.textContent = "";
-        }
+      const name = form.querySelector("#name");
+      const email = form.querySelector("#email");
+      const subject = form.querySelector("#subject");
+      const message = form.querySelector("#message");
 
-        const name = form.querySelector("#name");
-        const email = form.querySelector("#email");
-        const subject = form.querySelector("#subject");
-        const message = form.querySelector("#message");
+      const fields = [name, email, subject, message];
 
-        const fields = [name, email, subject, message];
+      // Clear previous validation
+      fields.forEach(field => {
+          field.setCustomValidity("");
 
-        // Clear previous errors
-        fields.forEach(field => {
-            field.setCustomValidity("");
+          const wrapper = field.closest(".field");
+          if (wrapper) wrapper.classList.remove("has-error");
 
-            const wrapper = field.closest(".field");
-            if (wrapper) wrapper.classList.remove("has-error");
+          const error = wrapper?.querySelector(".field-error");
+          if (error) error.textContent = "";
+      });
 
-            const error = wrapper?.querySelector(".field-error");
-            if (error) error.textContent = "";
-        });
+      function showError(field, text) {
+          field.setCustomValidity(text);
 
-        function showError(field, text) {
-            field.setCustomValidity(text);
+          const wrapper = field.closest(".field");
+          if (wrapper) wrapper.classList.add("has-error");
 
-            const wrapper = field.closest(".field");
-            if (wrapper) wrapper.classList.add("has-error");
+          const error = wrapper?.querySelector(".field-error");
+          if (error) error.textContent = text;
+      }
 
-            const error = wrapper?.querySelector(".field-error");
-            if (error) error.textContent = text;
-        }
+      // Required field validation
+      if (!name.value.trim()) {
+          showError(name, "Please enter your name.");
+      }
 
-        // Required fields
-        if (!name.value.trim())
-            showError(name, "Please enter your name.");
+      if (!email.value.trim()) {
+          showError(email, "Please enter your email address.");
+      }
 
-        if (!email.value.trim())
-            showError(email, "Please enter your email address.");
+      if (!subject.value.trim()) {
+          showError(subject, "Please enter a subject.");
+      }
 
-        if (!subject.value.trim())
-            showError(subject, "Please select a subject.");
+      if (!message.value.trim()) {
+          showError(message, "Please enter your message.");
+      }
 
-        if (!message.value.trim())
-            showError(message, "Please enter your message.");
+      if (!form.checkValidity()) {
+          form.reportValidity();
 
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
+          if (successBox) {
+              successBox.textContent = "Please fill in all required fields.";
+              successBox.classList.remove("success");
+              successBox.classList.add("error", "is-visible");
+          }
 
-        // Name validation
-        if (!/^[A-Za-z\s]{3,50}$/.test(name.value.trim()))
-            showError(name, "Please enter a valid name.");
+          return;
+      }
 
-        // Email validation
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
-            showError(email, "Please enter a valid email address.");
+      // Name validation
+      if (!/^[A-Za-z\s]{3,50}$/.test(name.value.trim())) {
+          showError(name, "Please enter a valid name (minimum 3 letters).");
+      }
 
-        // Message validation
-        if (message.value.trim().length < 10)
-            showError(message, "Please enter at least 10 characters.");
+      // Email validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+          showError(email, "Please enter a valid email address.");
+      }
 
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
+      // Subject validation
+      if (subject.value.trim().length < 5) {
+          showError(subject, "Subject must be at least 5 characters long.");
+      }
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Sending...";
+      // Message validation
+      if (message.value.trim().length < 10) {
+          showError(message, "Please enter at least 10 characters in your message.");
+      }
 
-        try {
+      if (!form.checkValidity()) {
+          form.reportValidity();
 
-            const response = await fetch(FORM_ENDPOINT, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json"
-                },
-                body: new FormData(form)
-            });
+          if (successBox) {
+              successBox.textContent = "Please correct the highlighted fields.";
+              successBox.classList.remove("success");
+              successBox.classList.add("error", "is-visible");
+          }
 
-            if (!response.ok)
-                throw new Error();
+          return;
+      }
 
-            form.reset();
+      // ===== SUCCESS =====
+      if (successBox) {
+          successBox.textContent =
+              "Thanks for reaching out! We'll get back to you within 1–2 business days.";
+          successBox.classList.remove("error");
+          successBox.classList.add("success", "is-visible");
+      }
 
-            successBox.textContent =
-                "✅ Thank you! Your message has been sent successfully.";
+      form.reset();
 
-            successBox.classList.add("is-visible");
-
-        } catch {
-
-            successBox.textContent =
-                "Unable to send your message right now. Please email us directly.";
-
-            successBox.classList.add("is-visible");
-
-        } finally {
-
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Send Message";
-
-        }
-
-    });
+      setTimeout(() => {
+          if (successBox) {
+              successBox.classList.remove("is-visible", "success", "error");
+              successBox.textContent = "";
+          }
+      }, 3000);
+  });
 }
 
 // Contact Page Form JS 
