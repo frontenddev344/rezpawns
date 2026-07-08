@@ -1447,7 +1447,7 @@ body {
   max-width: 34ch;
 }
 
-.footer-col h5 {
+.footer-col h5,.footer-col h3 {
   font-family: var(--font-display);
   font-size: 14px;
   color: var(--text-0);
