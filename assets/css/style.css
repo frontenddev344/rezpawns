@@ -2271,6 +2271,11 @@ body {
 .related-games {
   margin-top: 8px;
 }
+@media (max-width: 1199px) {
+  .form_sec .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media (max-width: 920px) {
   .game-hero {
@@ -2279,6 +2284,9 @@ body {
   }
 
   .game-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .form_sec .grid-2 {
     grid-template-columns: 1fr;
   }
 }
