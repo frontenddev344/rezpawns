@@ -1761,7 +1761,7 @@ body {
   height: 32px;
   stroke: currentColor;
 }
-.team-card h4 {
+.team-card h4 ,.team-card h3  {
   font-size: 16px;
   color: var(--text-0);
   margin-bottom: 4px;
@@ -1826,7 +1826,7 @@ body {
   box-shadow: 0 0 0 4px var(--bg-0);
 }
 
-.timeline-item h4 {
+.timeline-item h4 ,.timeline-item h3 {
   font-size: 16px;
   margin-bottom: 6px;
 }
