@@ -397,6 +397,7 @@ body {
 
   .nav-links.is-open {
     transform: translateX(0);
+    height: 100vh;
   }
 
   .nav-links a {
