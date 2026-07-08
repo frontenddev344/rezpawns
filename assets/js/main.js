@@ -409,7 +409,7 @@
       banner.setAttribute("aria-label", "Cookie consent");
       banner.innerHTML =
         '<p>We use necessary cookies to run this site, and — only with your consent — analytics and advertising cookies. ' +
-        'See our <a href="/cookie-policy.html">Cookie Policy</a> for details.</p>' +
+        'See our <a href="./cookie-policy.html">Cookie Policy</a> for details.</p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-primary btn-sm" data-consent="accept">Accept All</button>' +
         '<button type="button" class="btn btn-ghost btn-sm" data-consent="necessary">Necessary Only</button>' +
